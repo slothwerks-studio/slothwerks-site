@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>SlothWerks</title>
+
+    <link href="styles/index.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+
+    <!-- Due to async load, please keep the following script in the <head>. -->
+
+    <script type="text/javascript">
+      var onloadCallback = function() {
+        grecaptcha.render("recaptcha", {
+          "sitekey" : "6LebNGMUAAAAAAr-Ft2NhCvphKl-fkHIJxed3hhQ"
+        });
+      };
+    </script>
+
+  </head>
+  <body>
+
+    <header>
+      <h1>SlothWerks</h1>
+      <p>Code.  Communication.  Community.</p>
+      <p>
+        <span><a href="tel:+1-616-258-6179">616.258.6189</span>
+        <span><a href="mailto:contact@slothwerks.com">contact@slothwerks.com</a></span>
+        <span><a href="https://www.linkedin.com/in/slothwerks/" target="_blank">LinkedIn</a></span>
+        <span><a href="https://calendly.com/slothwerks/coffee-meeting/" target="_blank">Schedule a Meeting</a></span>
+      </p>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#whoWeAre">Who We Are</a></li>
+        <li><a href="#pastStuff">Stuff We've Done</a></li>
+        <li><a href="#currentStuff">Stuff We're Doing</a></li>
+        <li><a href="#contactUs">Contact Us</a></li>
+        <li><a href="#otherStuff">Additional Resources</a></li>
+      </ul>
+    </nav>
+
+    <section id="whoWeAre">
+      <h2>Who We Are</h2>
+      <p>
+        SlothWerks is a web application and multi-media consultancy in Grand Rapids.  For two decades we have provided technical services and solid leadership to businesses and organizations throughout West Michigan.  We bring to the table a passion for user-centered design, leveraging code and communication to craft solutions that will improve the lives of those living in our state and our world.
+      </p>
+    </section>
+
+    <section id="pastStuff">
+      <h2>Stuff We’ve Done</h2>
+      <h3>The Locker Room Legacy</h3>
+      <p>
+        The <a href="https://www.lockerroomlegacy.com/" target="_blank">Locker Room Legacy</a> is a unique experience which combines aspects of social media, professional networking, mentoring, and event promotion.  The platform directly benefits school sports programs as well as their current and former athletes.  SlothWerks helped the Locker Room Legacy team with tutorial videos in order to streamline the user experience.
+      </p>
+      <h3>Kyros Digital</h3>
+      <p>
+        SlothWerks provides user experience research and product development services to <a href="https://kyrosdigital.com/" target="_blank">Kyros Digital</a>.  Among the several projects we have worked on with Kyros are <a href="https://www.banyantreefabworks.com/" target="_blank">Banyan Tree Fabworks</a>, Banyan Surplus, and the Kyros Digital website itself.
+      </p>
+      <h3>Habitrade</h3>
+      <p>
+        As a part of Grand Rapids Startup Weekend, SlothWerks provided UX research, UI wireframe design, and user flow expertise to a small team of developers, entrepreneurs, and creatives.  The brief project resulted in an app concept that utilized both monetary and social components to incentivize the user to form good habits and stick to a multi-week “habit campaign”.
+      </p>
+      <h3>TownFly</h3>
+      <p>
+        Built in less than two weeks and launched at Start Garden in December 2017, the <a href="https://townfly.herokuapp.com/" target="_blank">TownFly</a> web application collected local events from Facebook based on location and other user input.  The app was built by a team of four using the React JavaScript framework with a Node.js backend.  Recent Facebook policy changes, unfortunately, rendered the API inoperative.
+      </p>
+    </section>
+
+    <section id="currentStuff">
+      <h2>Stuff We’re Doing</h2>
+      <h3>Grand Circus</h3>
+      <p>
+        SlothWerks proudly supports the work of <a href="https://www.grandcircus.co/" target="_blank">Grand Circus</a>, a Michigan-based tech training program.  We are the co-organizer of the local alumni meetup and assist with Grand Circus’ Intro to Code workshops, providing teaching assistance and social media promotion.
+      </p>
+      <h3>Loop Coding Center</h3>
+      <p>
+        SlothWerks is passionate about the education of our future leaders in Grand Rapids.  At the <a href="https://www.loopcodingcenter.com/" target="_blank">Loop Coding Center</a>, we offer assistance with course content, instruction, and program development.
+      </p>
+      <h3>Entrepreneurial Gold Podcast</h3>
+      <p>
+        <a href="http://aurikk.com/" target="_blank">Aurikk Brand Movement Group</a> offers monthly nuggets of wisdom through its podcast, <a href="https://www.facebook.com/aurikkbranding/" target="_blank">Entrepreneurial Gold</a>.  Throughout 2018, SlothWerks has provided editing and mixdown services for this inspiring and thought-provoking production.
+      </p>
+      <h3>The National Multiple Sclerosis Society</h3>
+      <p>
+        SlothWerks provides local support for the National Multiple Sclerosis Society via <a href="http://www.teamn3kk1d.com/" target="_blank">Team N3kk1d</a>.  This award-winning fundraising group handles everything from volunteer coordination to special event management for the MS Society and is responsible for more than $80,000 in donations for MS-related programs and research.  In 2018 we tackled a wide range of services including website maintenance, live sound production, and event photography.
+      </p>
+    </section>
+
+    <section id="contactUs">
+      <h2>Let’s Do This!</h2>
+      <p>
+        Put our services to the test.  How can SlothWerks help you and your business "cut through the noise" and be the best that it can be?  Send us a message or schedule a face-to-face meeting; let's talk!
+      </p>
+      <button>Send a Message</button>
+      <button><a href="https://calendly.com/slothwerks/coffee-meeting/" target="_blank">Schedule a Meeting</a></button>
+
+      <form id="contactForm" onsubmit="submitForm()" novalidate>
+        <!-- "novalidate" used here since we're using JavaScript for validation. -->
+        <p>Please note: all fields are required.</p>
+        <!-- Use the following hidden field if submitting directly to FormMail script...
+          <input type="hidden" id="recipient" name="recipient" value="contact@slothwerks.com">
+        -->
+        <!-- Use the following if a generic message title is desired...
+          <input type="hidden" name="subject" value="SlothWerks.Com Contact Form Submission">
+        -->
+        <label>
+          Name:
+          <input type="text" id="realname" name="realname" maxlength="50" />
+          <span id="realnameMessage"></span> <!-- Message element -->
+        </label>
+        <label>
+          Email:
+          <input type="email" id="email" name="email" maxlength="50" onblur="checkEmail()" />
+          <span id="emailMessage"></span> <!-- Message element -->
+        </label>
+        <label>
+          Phone (with area code; numbers only):
+          <input type="phone" id="phone" name="phone" maxlength="10" />
+          <span id="phoneMessage"></span> <!-- Message element -->
+        </label>
+        <label>
+          Message Subject:
+          <input type="text" id="subject" name="subject" maxlength="100" />
+          <span id="subjectMessage"></span> <!-- Message element -->
+        </label>
+        <label>
+          Message Text:
+          <textarea id="comments" name="comments" rows="3" cols="40"></textarea>
+          <span id="commentsMessage"></span> <!-- Message element -->
+        </label>
+        <div id="recaptcha"></div>
+        <!-- Use the code below if using the FormMail script for robot protection...
+          <p>Type "1234" in this box to prove you're a human being:</p>
+          <input type="text" id="secretfield" name="secretfield" required />
+        -->
+        <input type="submit" value="Send Message">
+        <p id="formMessage"></p>
+      </form>
+    </section>
+
+    <section id="otherStuff">
+      <h2>Additional Resources</h2>
+      <h3>Tech Community Calendar</h3>
+      <p>
+        Interested in diving into our local tech community?  SlothWerks maintains a <a href="http://bit.ly/2KnjON9" target="_blank">Google calendar</a> with local meetups, events, and programs geared toward recent grads from the Grand Circus program.
+      </p>
+      <h3>Friends of Mulick Park</h3>
+      <p>
+        The <a href="http://www.mulickpark.org/" target="_blank">Friends of Mulick Park</a> is a neighborhood-powered organization supporting Mulick Park Elementary.  Their website includes school news, parent resources, and a calendar with an abundance of family-friendly community events.
+      </p>
+      <h3>SlothWerks Media Archives</h3>
+      <p>
+        For the brave, SlothWerks maintains an <a href="http://www.slothwerks.com/archives/" target="_blank">archive of recordings and mixes</a> from over the years.  Listen and observe at your own risk.
+      </p>
+    </section>
+
+    <footer>
+      <p>(c) SlothWerks</p>
+    </footer>
+
+    <script src="scripts/index.jsx"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+  </body>
+</html>
