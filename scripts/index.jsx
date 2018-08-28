@@ -21,7 +21,37 @@ const phoneMessage = document.getElementById("phoneMessage");
 const subjectMessage = document.getElementById("subjectMessage");
 const commentsMessage = document.getElementById("commentsMessage");
 
-// Validation for email address
+// Add event listeners for message elements; remove message if input contents are removed
+
+email.addEventListener("input", event => {
+  if (!email.value) {
+    emailMessage.innerHTML = "";
+  }
+});
+
+phone.addEventListener("input", event => {
+  if (!email.value) {
+    phoneMessage.innerHTML = "";
+  }
+});
+
+// Validation for name; basically tests to see if data entry of some kind has occurred.
+// NOTE: Perhaps for names specifically we should also check for special characters such as */\[]{}<>; et cetera
+function checkRealName() {
+
+}
+
+// Validation for subject; basically tests to see if data entry of some kind has occurred.
+function checkSubject() {
+
+}
+
+// Validation for message content; basically tests to see if data entry of some kind has occurred.
+function checkMessage() {
+
+}
+
+// Validation for email address; uses built-in validity functionality (not perfect but will suffice for our purposes)
 function checkEmail() {
   if (email.validity.valid) {
     allowSubmission = true;
@@ -32,16 +62,31 @@ function checkEmail() {
   }
 }
 
-// Remove text from email message if contents is removed
-email.addEventListener("input", event => {
-  if (!email.value) {
-    emailMessage.innerHTML = "";
-  }
-});
-
+// Validation for phone number; max length of ten characters is controlled by HTML (but we'll test for this anyway)
+// Phone number should be all numbers with a total of 10 numerals
 function checkPhone() {
-
+  let phonePattern = RegExp("\d{10}");
+  if ( (phone.value.length === 10) && (phonePattern.test(phone.value)) ) {
+    allowSubmission = true;
+    phoneMessage.innerHTML = "Looks good!";
+  } else {
+    allowSubmission = false;
+    phoneMessage.innerHTML = "Please use numbers only; include area code.";
+  }
 }
+
+// Trim white space from beginning of text input; if the input is null after trimming, return false; otherwise return true
+function checkDataEntry(string) {
+  let emptyLeadingSpaces = RegExp("^\s+");
+  string.replace(emptyLeadingSpaces, "");
+  if (string.length === 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
 
 
 
