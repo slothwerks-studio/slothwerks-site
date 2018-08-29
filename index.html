@@ -109,7 +109,7 @@
         -->
         <label>
           Name:
-          <input type="text" id="realname" name="realname" maxlength="50" />
+          <input type="text" id="realname" name="realname" maxlength="50" onblur="checkName()" />
           <span id="realnameMessage"></span> 
         </label>
         <label>
@@ -119,17 +119,17 @@
         </label>
         <label>
           Phone (with area code; numbers only):
-          <input type="phone" id="phone" name="phone" maxlength="10" />
+          <input type="phone" id="phone" name="phone" maxlength="10" onblur="checkPhone()" />
           <span id="phoneMessage"></span> 
         </label>
         <label>
           Message Subject:
-          <input type="text" id="subject" name="subject" maxlength="100" />
+          <input type="text" id="subject" name="subject" maxlength="100" onblur="checkSubject()" />
           <span id="subjectMessage"></span> 
         </label>
         <label>
           Message Text:
-          <textarea id="comments" name="comments" rows="3" cols="40"></textarea>
+          <textarea id="comments" name="comments" rows="3" cols="40" onblur="checkComments()"></textarea>
           <span id="commentsMessage"></span> 
         </label>
         <div id="recaptcha"></div>
