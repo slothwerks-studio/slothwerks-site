@@ -4,6 +4,16 @@ contactForm.addEventListener("submit", event => {
   event.preventDefault();
 });
 
+// Show contact form when "Leave a message" is clicked
+function showForm() {
+  contactForm.style.display = "block";
+}
+
+// Hide contact form when [X]Close is selected
+function hideForm() {
+  contactForm.style.display = "none";
+}
+
 // Create booleans that will act as "valves" for the form submission process; default to false
 let allowSubmission = false;
 let realnameValidation = false;
@@ -27,7 +37,15 @@ const subjectMessage = document.getElementById("subjectMessage");
 const commentsMessage = document.getElementById("commentsMessage");
 const formMessage = document.getElementById("formMessage");
 
-// Add event listeners for input elements; remove any message if input contents are removed
+// Get elements which contain our character counters
+const subjectLength = document.getElementById("subjectLength");
+const commentLength = document.getElementById("commentsLength");
+
+// Define initial character counters
+subjectLength.innerHTML = ("(0/100)");
+commentsLength.innerHTML = ("(0/1000)");
+
+// Add event listeners for input elements; remove any message if input contents are removed; track remaining characters
 
 realname.addEventListener("input", event => {
   if (!realname.value) {
@@ -54,6 +72,10 @@ subject.addEventListener("input", event => {
   if (!subject.value) {
     subjectMessage.innerHTML = "";
     console.log("Subject input erased.");
+    subjectLength.innerHTML = ("(0/100)");
+  } else {
+    subjectLength.innerHTML = ("(" + subject.value.length + "/100)");
+    // Add logic: if within 10% of total characters, change color of counter to red
   }
 });
 
@@ -61,6 +83,10 @@ comments.addEventListener("input", event => {
   if (!comments.value) {
     commentsMessage.innerHTML = "";
     console.log("Comments input erased.");
+    commentsLength.innerHTML = ("(0/1000)");
+  } else {
+    commentsLength.innerHTML = ("(" + comments.value.length + "/1000)");
+    // Add logic: if within 10% of total characters, change color of counter to red
   }
 });
 
@@ -108,11 +134,15 @@ function checkEmail() {
 // Validation for phone number; max length of ten characters is controlled by HTML (but we'll test for this anyway)
 // Phone number should be all numbers with a total of 10 numerals
 function checkPhone() {
-  const phonePattern = RegExp("^\d{10}"); // Regular expression: the first ten characters in the string are a digit character (0-9)
-  if ( (phone.value.length !== 10) || (!phonePattern.test(phone.value)) ) {
+  const nonDigitPattern = RegExp("[^0-9]"); // Regular expression: a non-digit character (not 0-9)
+  if (phone.value.length !== 10) {
     phoneValidation = false;
-    console.log("Phone number is not ten digits.");
-    phoneMessage.innerHTML = "Please use numbers only; include area code.";
+    console.log("Phone number is not ten characters.");
+    phoneMessage.innerHTML = "Phone number should be ten total characters (example: 6162586179).";
+  } else if (nonDigitPattern.test(phone.value)) {
+      phoneValidation = false;
+      console.log("Phone number includes non-numerical characters.");
+      phoneMessage.innerHTML = "Please use numbers only.";
   } else {
     phoneValidation = true;
     console.log("Phone number passes validation.");
@@ -140,7 +170,7 @@ function checkComments() {
     console.log("Comments field is empty.");
     commentsMessage.innerHTML = "Please enter a message.";  
   } else {
-    allowSubmission = true;
+    commentsValidation = true;
     console.log("Comments pass validation.");
     commentsMessage.innerHTML = successMessage; 
   }
@@ -159,6 +189,11 @@ function checkEmptyEntry(string) {
 
 // Check all input validation values; if all are true, set allowSubmission to true
 function checkInputValidation () {
+  console.log("Name validation: " + realnameValidation);
+  console.log("Email validation: " + emailValidation);
+  console.log("Phone number validation: " + phoneValidation);
+  console.log("Subject validation: " + subjectValidation);
+  console.log("Comments validation: " + commentsValidation);
   if ( realnameValidation && emailValidation && phoneValidation && subjectValidation && commentsValidation ) {
     allowSubmission = true;
     console.log("All fields pass validation.");
@@ -167,6 +202,15 @@ function checkInputValidation () {
 
 // Form submission script
 function submitForm() {
+
+  // This form can be submitted simply by hitting enter within certain fields.
+  // Therefore we will perform all checks upon submission to display errors (or re-validate the currently selected field).
+
+  checkName();
+  checkEmail();
+  checkPhone();
+  checkSubject();
+  checkComments();
 
   const recipient = "contact@slotherks.com"; // Recipient of message from website
   const printConfig = "email,subject"; // Include the visitor email and subject in the response from the script
@@ -226,19 +270,21 @@ function submitForm() {
     // }
 
     if (recaptchaResponse !== "" ) {
-      console.log("Google ReCaptcha response received.");
+      console.log("Google reCAPTCHA response received.");
       console.log(recaptchaResponse);
       console.log("Here is the form data...");
       console.log(formData);
       sendData(formData, formMessage);
     } else {
       console.log("No reCAPTCHA; form will not be submitted.");
-      formMessage.innerHTML = "Please verify your humanity before submitting the form.";
+      formMessage.innerHTML = "Please verify your humanity with reCAPTCHA before submitting the form.";
     }
 
   } else {
     console.log("All fields do not yet pass validation.");
-    formMessage.innerHTML = "Please verify all fields are filled out correctly before submitting.";
+    // Rather than use the line below, we are running checks on all fields upon submission.
+    // This will result in errors popping up appropriately per input field.
+    // formMessage.innerHTML = "Please verify all fields are filled out correctly before submitting.";
   }
 
 }

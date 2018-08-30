@@ -93,9 +93,9 @@
     <section id="contactUs">
       <h2>Let’s Do This!</h2>
       <p>
-        Put our services to the test.  How can SlothWerks help you and your business "cut through the noise" and be the best that it can be?  Send us a message or schedule a face-to-face meeting; let's talk!
+        Put our services to the test.  How can SlothWerks help you and your business "cut through the noise" and be the best that it can be?  Leave a message or schedule a face-to-face meeting; let's talk!
       </p>
-      <button>Send a Message</button>
+      <button onclick="showForm()">Leave a Message</button>
       <button><a href="https://calendly.com/slothwerks/coffee-meeting/" target="_blank">Schedule a Meeting</a></button>
 
       <form id="contactForm" onsubmit="submitForm()" novalidate>
@@ -125,11 +125,13 @@
         <label>
           Message Subject:
           <input type="text" id="subject" name="subject" maxlength="100" onblur="checkSubject()" />
+          <span id="subjectLength"></span>
           <span id="subjectMessage"></span> 
         </label>
         <label>
           Message Text:
-          <textarea id="comments" name="comments" rows="3" cols="40" onblur="checkComments()"></textarea>
+          <textarea id="comments" name="comments" rows="3" cols="40" maxlength="1000" onblur="checkComments()"></textarea>
+          <span id="commentsLength"></span>
           <span id="commentsMessage"></span> 
         </label>
         <div id="recaptcha"></div>
@@ -137,8 +139,9 @@
           <p>Type "1234" in this box to prove you're a human being:</p>
           <input type="text" id="secretfield" name="secretfield" required />
         -->
-        <input type="submit" value="Send Message">
+        <input type="submit" value="Send">
         <p id="formMessage"></p>
+        <a onclick="hideForm()">[X]Close</a>
       </form>
     </section>
 
