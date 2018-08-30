@@ -4,8 +4,13 @@ contactForm.addEventListener("submit", event => {
   event.preventDefault();
 });
 
-// Create a boolean that will stop the form submission process
-let allowSubmission = true;
+// Create booleans that will act as "valves" for the form submission process; default to false
+let allowSubmission = false;
+let realnameValidation = false;
+let emailValidation = false;
+let phoneValidation = false;
+let subjectValidation = false;
+let commentsValidation = false;
 
 // Fetch form elements from the DOM
 const realname = document.getElementById("realname"); // Please use "realname" convention; this is important for correct submission to the FormMail script.
@@ -22,107 +27,141 @@ const subjectMessage = document.getElementById("subjectMessage");
 const commentsMessage = document.getElementById("commentsMessage");
 const formMessage = document.getElementById("formMessage");
 
-// Add event listeners for message elements; remove message if input contents are removed
+// Add event listeners for input elements; remove any message if input contents are removed
 
 realname.addEventListener("input", event => {
   if (!realname.value) {
     realnameMessage.innerHTML = "";
+    console.log("Name input erased.");
   }
 });
 
 email.addEventListener("input", event => {
   if (!email.value) {
     emailMessage.innerHTML = "";
+    console.log("Email address input erased.");
   }
 });
 
 phone.addEventListener("input", event => {
   if (!phone.value) {
     phoneMessage.innerHTML = "";
+    console.log("Phone number input erased.");
   }
 });
 
 subject.addEventListener("input", event => {
   if (!subject.value) {
     subjectMessage.innerHTML = "";
+    console.log("Subject input erased.");
   }
 });
 
 comments.addEventListener("input", event => {
   if (!comments.value) {
     commentsMessage.innerHTML = "";
+    console.log("Comments input erased.");
   }
 });
 
+// Success message - might be a string of text or an icon
+const successMessage = "Looks good!";
+
 // Validation for name; tests for special characters and determines if actual (non-empty) data entry has occurred.
 function checkName() {
-  let nonWordPattern = RegExp("[^a-zA-Z -]/g"); // Regular expression: the string includes a character that is not a letter, space, or dash
-  if (nonWordPattern.test(realname.value)) {
-    allowSubmission = false;
-    realnameMessage.innerHTML = "Please remove special characters from this field.";  
-  } else if (checkEmptyEntry(realname.value)) {
-    allowSubmission = false;
-    realnameMessage.innerHTML = "Please enter your name.";  
+  const nonWordPattern = RegExp("[^a-zA-Z \-]+"); // Regular expression: the string includes a character that is not a letter, space, or dash
+  if (checkEmptyEntry(realname.value)) {
+    realnameValidation = false;
+    console.log("Name field is empty.");
+    realnameMessage.innerHTML = "Please enter your name.";
+  } else if (nonWordPattern.test(realname.value)) {
+    realnameValidation = false;
+    console.log("Name contains special characters; form will not be submitted.");
+    realnameMessage.innerHTML = "Please remove special characters from this field.";
   } else {
-    allowSubmission = true;
-    realnameMessage.innerHTML = "Looks good!"; 
+    realnameValidation = true;
+    console.log("Name passes validation.");
+    realnameMessage.innerHTML = successMessage; 
   }
 }
 
 // Validation for email address; uses built-in HTML5 validity functionality (not perfect but will suffice for our purposes)
+// If checking validity from scratch, theoretically would look for a pattern of [string] + "@" + [string] + "." + [string]
+// A wide array of possible characters exist, so doing this from scratch is more trouble than it's worth:
+// [Wikipedia Article](https://en.wikipedia.org/wiki/Email_address)
 function checkEmail() {
-  if (!email.validity.valid) {
-    allowSubmission = false;
-    emailMessage.innerHTML = "This email appears invalid; please re-enter.";
+  if (checkEmptyEntry(email.value)) {
+    emailValidation = false;
+    console.log("Email field is empty.");
+    emailMessage.innerHTML = "Please enter your email address.";
+  } else if (!email.validity.valid) {
+    emailValidation = false;
+    console.log("Email address appears to be invalid.");
+    emailMessage.innerHTML = "Please enter a valid email address.";
   } else {
-    allowSubmission = true;
-    emailMessage.innerHTML = "Looks good!";
+    emailValidation = true;
+    console.log("Email address passes validation.");
+    emailMessage.innerHTML = successMessage;
   }
 }
 
 // Validation for phone number; max length of ten characters is controlled by HTML (but we'll test for this anyway)
 // Phone number should be all numbers with a total of 10 numerals
 function checkPhone() {
-  let phonePattern = RegExp("^\d{10}"); // Regular expression: the first ten characters in the string are a digit character (0-9)
+  const phonePattern = RegExp("^\d{10}"); // Regular expression: the first ten characters in the string are a digit character (0-9)
   if ( (phone.value.length !== 10) || (!phonePattern.test(phone.value)) ) {
-    allowSubmission = false;
+    phoneValidation = false;
+    console.log("Phone number is not ten digits.");
     phoneMessage.innerHTML = "Please use numbers only; include area code.";
   } else {
-    allowSubmission = true;
-    phoneMessage.innerHTML = "Looks good!";
+    phoneValidation = true;
+    console.log("Phone number passes validation.");
+    phoneMessage.innerHTML = successMessage;
   }
 }
 
 // Validation for subject; tests to see if if actual (non-empty) data entry has occurred.
 function checkSubject() {
   if (checkEmptyEntry(subject.value)) {
-    allowSubmission = false;
+    subjectValidation = false;
+    console.log("Subject field is empty.");
     subjectMessage.innerHTML = "Please enter a subject.";  
   } else {
-    allowSubmission = true;
-    subjectMessage.innerHTML = "Looks good!"; 
+    subjectValidation = true;
+    console.log("Subject passes validation.");
+    subjectMessage.innerHTML = successMessage; 
   }
 }
 
 // Validation for message comments; tests to see if if actual (non-empty) data entry has occurred.
 function checkComments() {
   if (checkEmptyEntry(comments.value)) {
-    allowSubmission = false;
+    commentsValidation = false;
+    console.log("Comments field is empty.");
     commentsMessage.innerHTML = "Please enter a message.";  
   } else {
     allowSubmission = true;
-    commentsMessage.innerHTML = "Looks good!"; 
+    console.log("Comments pass validation.");
+    commentsMessage.innerHTML = successMessage; 
   }
 }
 
 // Trim white space from beginning of text input; if the input is null after trimming, return true (ie, "yes, it's empty"); otherwise return false
 function checkEmptyEntry(string) {
-  let leadingSpaces = RegExp("^\s+");
+  const leadingSpaces = RegExp("^\s+"); // Regular expression: all spaces and similar characters at the beginning of the string prior to the first "real" character
   string.replace(leadingSpaces, "");
   if (string.length === 0) {
     return true;
   } else {
     return false;
+  }
+}
+
+// Check all input validation values; if all are true, set allowSubmission to true
+function checkInputValidation () {
+  if ( realnameValidation && emailValidation && phoneValidation && subjectValidation && commentsValidation ) {
+    allowSubmission = true;
+    console.log("All fields pass validation.");
   }
 }
 
@@ -139,25 +178,25 @@ function submitForm() {
 
   const secretCode = "1234"; // This is the required code necessary for form submission, defined in the file formmail.code
 
-  /* We should sanitize the user input on the contact form.  We can do this in two ways:
-  1) check to make sure the phone number is in the correct format as the user types in real time, and
-  2) possibly run a check on the input once received.
+  /* 
+  
+  We should sanitize the user input on the contact form.  We can do this in several ways:
+  1) check to make sure the input is in the correct format as the user types in real time,
+  2) check the input when the user moves away from the field, or
+  3) run a check on the input when the submit button is clicked.
 
   For each input, we should expect to see the following:
-  NAME: A string of text.  If we wanted to be picky, this field would not include special characters.
-  EMAIL:  Another string of text, with the syntax [string] + "@" + [string] + "." + [string].
-  PHONE:  A string with an expected length of 10 that consists of all numbers.
-  SUBJECT:  String of text, allowing for special characters.  Stretch goal:  limit the number of characters and display the remaining characters in real time?
-  MESSAGE:  String of text, allowing for special characters.  Stretch goal:  Maybe limit the number of characters and display the remaining characters in real time?
+  * NAME: A string of text.  If we wanted to be picky, this field would not include special characters.
+  * EMAIL:  Another string of text, with the syntax [string] + "@" + [string] + "." + [string].
+  * PHONE:  A string with an expected length of 10 that consists of all numbers.
+  * SUBJECT:  String of text, allowing for special characters.  Stretch goal:  limit the number of characters and display the remaining characters in real time?
+  * MESSAGE:  String of text, allowing for special characters.  Stretch goal:  Maybe limit the number of characters and display the remaining characters in real time?
+  
   */
 
-  // We assume our JavaScript has completed validation.  But this assumes the user has touched the input fields.
-  // If the user has not done anything and simply clicks submit, we'll want to generate some errors.
+  // allowSubmission must be set to "true" for the form to be submitted.  This can only occur when all fields have been filled out successfully.
 
-  if ( !realname.value || !email.value || !phone.value || !subject.value || !message.value ) {
-    allowSubmission = false;
-    formMessage.innerHTML = "Please fill out all fields before submitting.";
-  }
+  checkInputValidation();
 
   if (allowSubmission) {
 
@@ -198,6 +237,7 @@ function submitForm() {
     }
 
   } else {
+    console.log("All fields do not yet pass validation.");
     formMessage.innerHTML = "Please verify all fields are filled out correctly before submitting.";
   }
 
